@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --mint-green: #e6f7ef; 
+  --greenify-button-green: #09ad5f; 
+  --coffee-green: #006241;
+  --ge-black: #171717;
+  --background: #ffffff;
+  --foreground: var(--ge-black);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--ge-black);
+    --foreground: #ffffff;
+  }
+
+  /* Fixing text color for dark mode users */
+  input[type="number"], textarea {
+    color: black; 
+  }
+  h1, h2, p, label { 
+    color: var(--background);
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family:  "Jost", Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+/* Custom scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #006241; /* Color of the scrollbar handle */
+  border-radius: 10px;       /* Rounded corners on the scrollbar handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #09ad5f; /* Color on hover */
+}
+
+
+/* Scrollbar for Firefox non-webkit browser*/
+.scroll-container {
+  scrollbar-width: thin;      
+  scrollbar-color: #006241 #f1f1f1; /* Thumb color and track color */
+}
+
+/* Hide arrows in input of type=number fields for Webkit browsers (Chrome, Safari, Edge) */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide arrows for Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+/*
+Default Elements
+*/
+
+/* Centered flex column */
+.flex-col-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Centered flex row */
+.flex-row-centered {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Default page background with top down mint green-white gradient */
+.default-page-bg {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--mint-green), #FFFFFF);
+}
+
+/* Page Title Text */
+.page-title {
+  @apply text-4xl font-bold mt-4;
+}
+
+/* Page Caption Text */
+.page-caption {
+  @apply text-xl mt-4 mb-4 text-gray-800;
+}
+
+/* End of Default Elements */
+
+

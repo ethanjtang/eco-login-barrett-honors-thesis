@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+Home Page 
+*/
+
+/* Background of home page */
+.home-page-bg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 2vh;
+    background: radial-gradient(ellipse, #FFFFFF, #e6f7ef);
+  }
+  
+  /* End of Home Page */

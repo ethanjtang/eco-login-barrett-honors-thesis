@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+Navigation Bar
+*/
+
+/* Bar itself */
+.nav-bar-header {
+    @apply bg-white h-16 flex items-center justify-start px-8 sticky top-0 z-50 shadow-md;
+    /* INFO: z-index deals with what elements eppear on top of others */
+  }
+  
+  /* Nav bar element */
+  .nav-bar-element-default {
+    @apply ml-8 font-bold text-sm uppercase tracking-wider text-black hover:text-coffee-green;
+  }
+  
+  /* Nav bar element of current page */
+  .nav-bar-element-select {
+    @apply ml-8 font-bold text-sm uppercase tracking-wider text-black hover:text-coffee-green border-b-2 border-coffee-green;
+  }
+  
+  /* Link to greenexpectations.us website */
+  .green-expectations-us-link {
+    @apply font-bold text-sm uppercase tracking-wider text-black hover:text-coffee-green;
+  }
+  /* End of Navigation Bar */
