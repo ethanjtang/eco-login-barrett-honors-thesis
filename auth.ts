@@ -1,45 +1,26 @@
 import NextAuth from "next-auth"
-import { ZodError } from "zod"
-import Credentials from "next-auth/providers/credentials"
-import { signInSchema } from "./lib/zod"
-// Your own logic for dealing with plaintext password strings; be careful!
-import { saltAndHashPassword } from "@/utils/password"
-import { getUserFromDb } from "@/utils/db"
+import Nodemailer from "next-auth/providers/nodemailer"
  
-export const { handlers, auth } = NextAuth({
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { prisma } from "@/db/prisma"
+
+// For Microsoft Edge compatibility issues
+import authConfig from "./auth.config"
+ 
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   providers: [
-    Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      credentials: {
-        email: {},
-        password: {},
+    Nodemailer({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
       },
-      authorize: async (credentials) => {
-        try {
-          let user = null
- 
-          const { email, password } = await signInSchema.parseAsync(credentials)
- 
-          // logic to salt and hash password
-          const pwHash = saltAndHashPassword(password)
- 
-          // logic to verify if the user exists
-          user = await getUserFromDb(email, pwHash)
- 
-          if (!user) {
-            throw new Error("Invalid credentials.")
-          }
- 
-          // return JSON object with the user data
-          return user
-        } catch (error) {
-          if (error instanceof ZodError) {
-            // Return `null` to indicate that the credentials are invalid
-            return null
-          }
-        }
-      },
+      from: process.env.EMAIL_FROM,
     }),
   ],
 })
