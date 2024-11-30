@@ -1,7 +1,15 @@
 import Layout from "./layout";
 
-export default function Leaderboard() {
-    return (
+import { auth } from "@/auth";
+import AuthNotFound from "@/db/sessionCheck"
+
+export default async function Leaderboard() {
+  const session = await auth()
+  if (!session) {
+    return (<AuthNotFound/>);
+  }  
+  
+  return (
       <div className="home-page-bg">
         <p>lelole</p>
         <p className="mt-10"> lolelo </p>

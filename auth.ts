@@ -28,6 +28,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       
       authorize: async (credentials) => {
+        let user = null
+
         if (!credentials) { 
           throw new Error("Email and password are required."); 
         }
@@ -38,8 +40,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         console.log('entering try loop');
-        try {
-          let user = null
+
+        try { 
           const { email, password } = await signInSchema.parseAsync(credentials)
           
           console.log('Checking if user exists');
@@ -49,11 +51,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (user)
           {
             console.log('User exists in db, comparing hashed password to input text');
-            const isValidPassword = await bcrypt.compare(password, user.hashPassword);
-            if (isValidPassword) {
-              console.log('password matches, returning user object');
-              // Return the user object if the password is valid
-              return user;
+
+            if (user.hashPassword != null)
+            {
+              console.log("hashed password: ", user.hashPassword);
+              const isValidPassword = await bcrypt.compare(password, user.hashPassword);
+              if (isValidPassword) {
+                console.log('password matches, returning user object');
+                // Return the user object if the password is valid
+                return user;
+              }
             }
           }
 
@@ -68,16 +75,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             });
             console.log('New user created');
             user = await getUser(credentials.email);
+            return user
           }
-          
-          // return user object with their profile data
-          return user
         }
         catch (error) {
           if (error instanceof ZodError) {
             // Return `null` to indicate that the credentials are invalid
             return null
           }
+        }
+        finally {
+          return user
         }
       },
     }),
@@ -96,10 +104,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 })
 
 async function getUser(input_email: string) {
+  let dbUser = null
   try
   {
     console.log('trying to find user in db with email: ', input_email);
-    const dbUser = await prisma.user.findUnique({
+    dbUser = await prisma.user.findUnique({
       where: {
         email: input_email,
       },
@@ -107,14 +116,14 @@ async function getUser(input_email: string) {
   
     if (dbUser) 
     {
-      console.log('user found in db');
-      return dbUser;
+      console.log('user found in db lelole');
     }
-
-    return null;
   }  
   catch (error) 
   { 
     console.error("Error fetching user:", error); 
+  }
+  finally {
+    return dbUser;
   }
 }
