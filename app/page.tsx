@@ -3,6 +3,7 @@ import '@/styles/page_home.css';
 
 import Image from "next/image";
 import { SignIn } from '@/components/sign-in';
+import { Register } from "@/components/register";
 
 export default function Home() {
   return (
@@ -23,6 +24,8 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Register button */}
+      <Register/>
       {/* Sign-In button */}
       <SignIn/>
       

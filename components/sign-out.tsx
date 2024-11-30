@@ -1,10 +1,11 @@
+
 import { signOut } from "@/auth"
  
-export function SignOut() {
+export async function SignOut() {
   return (
     <form
       action={async () => {
-        "use server"
+        "use server";
         await signOut()
       }}
     >

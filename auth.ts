@@ -1,11 +1,16 @@
 import NextAuth from "next-auth"
+
 import Credentials from "next-auth/providers/credentials"
+import { ZodError } from "zod"
+import { signInSchema } from "./lib/zod"
+
 import Nodemailer from "next-auth/providers/nodemailer"
  
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/db/prisma";
-import MyPrismaClient from "@/db/prismaClient";
 
+import { saltAndHashPassword } from '@/db/authUtil';
+import bcrypt from "bcrypt";
 
 // For Microsoft Edge compatibility issues
 import authConfig from "./auth.config"
@@ -18,36 +23,62 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        username: {type: 'text', label: 'Username', placeholder: 'Enter your username'},
+        email: {type: 'text', label: 'Email', placeholder: 'Enter your email'},
         password: {type: 'password', label: 'Password', placeholder: 'Enter your password'},
       },
       
       authorize: async (credentials) => {
         if (!credentials) { 
-          throw new Error("Username and password are required."); 
+          throw new Error("Email and password are required."); 
         }
 
-        if (typeof credentials.username !== 'string' || 
+        if (typeof credentials.email !== 'string' || 
             typeof credentials.password !== 'string') {
-          throw new Error("Username and/or password are invalid type."); 
+          throw new Error("Invalid type provided for input(s)."); 
         }
 
-        let user = null
- 
-        // logic to salt and hash password
-        const pwHash = await saltAndHashPassword(credentials.password)
- 
-        // logic to verify if the user exists
-        user = await getUser(credentials.username, pwHash)
- 
-        if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.")
+        console.log('entering try loop');
+        try {
+          let user = null
+          const { email, password } = await signInSchema.parseAsync(credentials)
+          
+          console.log('Checking if user exists');
+          // logic to verify if the user exists
+          user = await getUser(email)
+          
+          if (user)
+          {
+            console.log('User exists in db, comparing hashed password to input text');
+            const isValidPassword = await bcrypt.compare(password, user.hashPassword);
+            if (isValidPassword) {
+              console.log('password matches, returning user object');
+              // Return the user object if the password is valid
+              return user;
+            }
+          }
+
+          if (!user) {
+            console.log('user not found in db');
+            // logic to salt and hash password
+            
+            const hashPassword = await saltAndHashPassword(credentials.password)
+            // Create the new user
+            const newUser = await prisma.user.create({
+              data: { email, hashPassword },
+            });
+            console.log('New user created');
+            user = await getUser(credentials.email);
+          }
+          
+          // return user object with their profile data
+          return user
         }
- 
-        // return user object with their profile data
-        return user
+        catch (error) {
+          if (error instanceof ZodError) {
+            // Return `null` to indicate that the credentials are invalid
+            return null
+          }
+        }
       },
     }),
     Nodemailer({
@@ -64,50 +95,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
 })
 
-async function getUser(input_user: string, input_hashed_password: string) {
+async function getUser(input_email: string) {
   try
   {
-    const dbUser = await MyPrismaClient.user.findUnique({
+    console.log('trying to find user in db with email: ', input_email);
+    const dbUser = await prisma.user.findUnique({
       where: {
-        username: input_user,
+        email: input_email,
       },
     });
   
     if (dbUser) 
     {
-      if (dbUser.hashPassword == input_hashed_password)
-      {
-        return dbUser;
-      }
+      console.log('user found in db');
+      return dbUser;
     }
+
+    return null;
   }  
   catch (error) 
   { 
     console.error("Error fetching user:", error); 
-  } 
-  finally { 
-    return undefined;
-  }
-}
-
-async function saltAndHashPassword(password: string) {
-  const bcrypt = require('bcrypt');
-  const saltRounds = 10;
-  
-  try {
-    const hash = await bcrypt.hash(password, saltRounds);
-    console.log(`Hash generated: ${hash}`);
-    return hash;
-  } 
-  catch (error) {
-    if (error instanceof Error)
-    {
-      console.error(error.message);
-    }
-    else
-    {
-      console.error("An unexpected error occurred");
-    }
-    return undefined;
   }
 }

@@ -57,10 +57,7 @@ const Navbar = () => {
                 }
             )}
         </ul>
-
-        <div className="flex-col-centered ml-auto">
-            <SignOut/>
-        </div>
+        
         <div className="flex-col-centered ml-auto">
             {/* Add a link to the GreenExpectations website */}
             <Link 
