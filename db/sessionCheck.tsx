@@ -1,13 +1,16 @@
-import { SignIn } from "@/components/sign-in"
+import { SignIn_Sm } from "@/components/sign-in"
 
 export default async function AuthNotFound() {
     return(
         <div className="home-page-bg">
-            <p>
-                Unauthorized Access, please login to view this page.
+            <h1 className="page-title">
+                Unauthorized Access
+            </h1>
+            <p className="page-caption">
+                User session not active, please sign in to view this page.
             </p>
             <div>
-                <SignIn/>
+                <SignIn_Sm/>
             </div>
         </div>
     );

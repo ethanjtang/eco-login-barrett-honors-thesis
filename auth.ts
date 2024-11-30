@@ -1,3 +1,5 @@
+{/* TODO: Remove console output with confirmation messages and hashed paswords! */}
+
 import NextAuth from "next-auth"
 
 import Credentials from "next-auth/providers/credentials"
@@ -59,33 +61,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               if (isValidPassword) {
                 console.log('password matches, returning user object');
                 // Return the user object if the password is valid
-                return user;
+                return user
               }
+              else
+              {
+                console.log('password does NOT match!');
+                return null;
+              }
+            }
+            else
+            {
+              {/* Extra logic to indicate user has accout but used different authentication method */}
+              console.log("User account found but no password b/c of nodemailer signup")
+              return null;
             }
           }
 
-          if (!user) {
-            console.log('user not found in db');
-            // logic to salt and hash password
-            
-            const hashPassword = await saltAndHashPassword(credentials.password)
-            // Create the new user
-            const newUser = await prisma.user.create({
-              data: { email, hashPassword },
-            });
-            console.log('New user created');
-            user = await getUser(credentials.email);
-            return user
-          }
+          console.log('user not found in db');
+          // logic to salt and hash password
+          
+          const hashPassword = await saltAndHashPassword(credentials.password)
+          // Create the new user
+          const newUser = await prisma.user.create({
+            data: { email, hashPassword },
+          });
+          console.log('New user created');
+          user = await getUser(credentials.email);
+          return user
         }
         catch (error) {
-          if (error instanceof ZodError) {
-            // Return `null` to indicate that the credentials are invalid
-            return null
-          }
-        }
-        finally {
-          return user
+          console.error("Error: ", error);
+          return null;
         }
       },
     }),

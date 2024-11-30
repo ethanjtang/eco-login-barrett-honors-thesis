@@ -16,5 +16,8 @@ Home Page
     gap: 2vh;
     background: radial-gradient(ellipse, #FFFFFF, #e6f7ef);
   }
-  
+
+  .home-page-nav-text {
+    @apply font-semibold text-lg text-black hover:text-coffee-green;
+  }
   /* End of Home Page */
