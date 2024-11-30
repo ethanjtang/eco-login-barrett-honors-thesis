@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 
 import "@/styles/navbar.css";
 
+import { SignOut } from "@/components/sign-out";
+
 const Navbar = () => {
     const path = usePathname();
     const menuItem = [
@@ -55,6 +57,10 @@ const Navbar = () => {
                 }
             )}
         </ul>
+
+        <div className="flex-col-centered ml-auto">
+            <SignOut/>
+        </div>
         <div className="flex-col-centered ml-auto">
             {/* Add a link to the GreenExpectations website */}
             <Link 
