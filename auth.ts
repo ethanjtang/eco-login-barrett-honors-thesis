@@ -48,6 +48,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           console.log('Checking if user exists');
           // logic to verify if the user exists
           user = await getUser(email)
+          console.log(user);
           
           if (user)
           {

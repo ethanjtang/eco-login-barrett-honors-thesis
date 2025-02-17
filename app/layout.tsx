@@ -25,6 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Green Living website"/>
         <link rel="icon" href="/green_expectations_logo.png" />
       </head>
       <body

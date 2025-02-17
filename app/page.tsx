@@ -20,7 +20,7 @@ export default async function Home() {
   else {
     user_email = "No session found!";
   }
-  
+
   return (
       <div className="home-page-bg flex-col-centered height-[100vh]">
         <div className="flex-row-centered gap-[2vw] mt-[10vh]">
@@ -50,6 +50,8 @@ export default async function Home() {
         {/* Show Sign-In button IFF user does not have active session */}
         { session && (
           <div className="mt-[5vh] flex-col-centered">
+            <Link href="/interests" className="nav-bar-element-default"> Interests Page </Link>
+            <Link href="/leaderboard" className="nav-bar-element-default"> Leaderboard Page </Link>
             <p> Session detected: {user_email} </p>
             <SignOut/>
           </div>
