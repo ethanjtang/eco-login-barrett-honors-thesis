@@ -6,7 +6,6 @@ import Credentials from "next-auth/providers/credentials"
 import { ZodError } from "zod"
 import { signInSchema } from "./lib/zod"
 
-import Nodemailer from "next-auth/providers/nodemailer"
  
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/db/prisma";
@@ -94,17 +93,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
       },
-    }),
-    Nodemailer({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
     }),
   ],
 })

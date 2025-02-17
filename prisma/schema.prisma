@@ -17,6 +17,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  accountType   String?
+  interests     String[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  
