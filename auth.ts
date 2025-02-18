@@ -71,7 +71,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
             else
             {
-              {/* Extra logic to indicate user has accout but used different authentication method */}
+              {/* Extra logic to indicate user has account but used different authentication method */}
               console.log("User account found but no password b/c of nodemailer signup")
               return null;
             }

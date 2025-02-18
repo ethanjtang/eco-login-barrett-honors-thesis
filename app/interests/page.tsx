@@ -1,11 +1,15 @@
 import Layout from "./layout";
 import { SignOut } from "@/components/sign-out";
+import TopicsList from "@/app/interests/topics";
 
 import { auth } from "@/auth";
 import AuthNotFound from "@/db/sessionCheck"
+import * as dbUtils from "@/db/getUserAccount"
 
 import "@/styles/globals.css"
 
+{/* List of topics related to sustainability and green living */}
+const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"]
 export default async function Interests() {
   const session = await auth()
   if (!session) {
@@ -17,6 +21,14 @@ export default async function Interests() {
   }
   
   const user_email = session.user?.email;
+
+  let user_topics:string[] = [];
+
+  if (user_email)
+  {
+    user_topics = await dbUtils.getUserTopics(user_email);
+  }
+  
 
   return (
       <div className="home-page-bg ml-[2vh]">
@@ -31,6 +43,13 @@ export default async function Interests() {
         </p>
         <div>
           <SignOut/>
+        </div>
+        <div>
+          <p> Your list of interests: </p>
+          <div> { user_topics }</div>
+        </div>
+        <div>
+          {user_email && <TopicsList user_email={user_email} />}
         </div>
       </div>
     );
