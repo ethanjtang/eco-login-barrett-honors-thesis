@@ -1,18 +1,15 @@
 // components/TopicsList.tsx
-
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 
-import * as dbUtils from "@/db/getUserAccount"
-
 interface TopicsListProps {
-    user_email: string;
-  }
+  userEmail: string;
+}
 
 const sus_topics: string[] = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
-const TopicsList: React.FC<TopicsListProps> = ({ user_email }) => {
+const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
   const handleCheckboxChange = (topic: string) => {
@@ -25,6 +22,32 @@ const TopicsList: React.FC<TopicsListProps> = ({ user_email }) => {
 
   const getSelectedTopics = (): string[] => {
     return selectedTopics;
+  };
+
+  const handleUpdateTopics = async () => {
+    console.log("Update topics call started")
+    try {
+    console.log("Entered try block")
+      const response = await fetch('/api/prismaDB/updateUserTopics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_email: userEmail, new_user_topics: getSelectedTopics() }),
+      });
+
+      console.log("Done with call")
+      if (!response.ok) {
+        console.log("response is not ok")
+        throw new Error('Failed to update user topics, response is not ok');
+      }
+
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.log("Generic error")
+      console.error('Error updating user topics: generic error! :', error);
+    }
   };
 
   return (
@@ -45,7 +68,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ user_email }) => {
           </label>
         </div>
       ))}
-      <button onClick={() => dbUtils.updateUserTopics(user_email, getSelectedTopics())}>Update Selected Topics</button>
+      <button onClick={handleUpdateTopics}>Update Selected Topics</button>
     </div>
   );
 };
