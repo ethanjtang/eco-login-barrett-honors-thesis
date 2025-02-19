@@ -21,13 +21,6 @@ export default async function Interests() {
 
   const user_email = session.user?.email;
 
-  let user_topics: string[] = [];
-
-  if (user_email)
-  {
-    user_topics = await dbUtils.getUserTopics(user_email);
-  }
-
   return (
     <div className="home-page-bg ml-[2vh]">
       <h1 className="page-title">Interests Page</h1>
@@ -37,10 +30,6 @@ export default async function Interests() {
       <p className="page-caption">Hello, {user_email}!</p>
       <div>
         <SignOut />
-      </div>
-      <div>
-        <p>Your list of interests:</p>
-        <div>{user_topics.join(', ')}</div>
       </div>
       <div>{user_email && <TopicsList userEmail={user_email} />}</div>
     </div>
