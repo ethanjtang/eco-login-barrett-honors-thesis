@@ -1,12 +1,18 @@
+
 import Layout from "./layout";
 
 import { auth } from "@/auth";
 import { getUserAccount, isAdminAccount } from "@/db/getUserAccount"
 import AuthNotFound from "@/db/sessionCheck"
+import AdminDash from "@/app/leaderboard/AdminDash"
+import UserDash from "@/app/leaderboard/UserDash"
+
+import { prisma } from "@/db/prisma"
 
 import "@/styles/globals.css"
 
 export default async function Leaderboard() {
+  
   const session = await auth()
   if (!session) {
     return (
@@ -37,14 +43,10 @@ export default async function Leaderboard() {
           This is a placeholder for the leaderboard page, where users will be able to see scores of other users.
         </p>
         {session && (
-        <div>
-        Session found
-        </div>
+        <UserDash/>
         )}
         {admin_user && (
-        <div>
-        Admin User
-        </div>
+        <AdminDash/>
         )}
       </div>
     );
