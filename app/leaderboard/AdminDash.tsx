@@ -11,6 +11,39 @@ const AdminDash: React.FC = () => {
     setSelectedTopic(topic);
   };
 
+  const handleGetUsers = async () => {
+    if (!selectedTopic) {
+      alert('Please select a topic first!');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/prisma/admin_display?user_topic=${encodeURIComponent(selectedTopic)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user emails');
+      }
+
+      const data = await response.json();
+      const emails = data.emails;
+
+      const blob = new Blob([emails.join('\n')], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'user_emails.txt';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error fetching user emails:', error);
+    }
+  };
+
   return (
     <div>
       <h2>Admin user found</h2>
@@ -32,7 +65,7 @@ const AdminDash: React.FC = () => {
           </div>
         ))}
       </div>
-      <button>Get users</button>
+      <button onClick={handleGetUsers}>Get users</button>
     </div>
   );
 };
