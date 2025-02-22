@@ -1,9 +1,9 @@
-// app/api/prismaDB/updateUserTopics/route.ts
+// app/api/prismaDB/getUserTopics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserAccount } from '@/db/getUserAccount';
 import { prisma } from '@/db/prisma';
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
   const { user_email, new_user_topics } = await request.json();
 
   if (!user_email || !Array.isArray(new_user_topics)) {
@@ -11,15 +11,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    console.log('Updating db...1');
     const user = await getUserAccount(user_email);
-    console.log('Updating db...2');
 
     if (user) {
-      console.log('Updating db...3');
       console.log('Original:', user.interests);
       user.interests = new_user_topics;
-      console.log('Updating db...4');
       console.log('Updated:', user.interests);
 
       // Update user in the database
@@ -33,9 +29,30 @@ export async function POST(request: NextRequest) {
       console.log('User account not found, cannot update topics!');
       return NextResponse.json({ error: 'User account not found' }, { status: 404 });
     }
-    console.log('Updating db...5');
   } catch (error) {
-    console.error('Error updating user topics LELOLELOLELOLE:', error);
+    console.error('Error updating user topics', error);
     return NextResponse.json({ error: 'Error updating user topics' }, { status: 500 });
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const url = new URL(request.url);
+    const user_email = url.searchParams.get('user_email');
+
+    if (!user_email) {
+      return NextResponse.json({ error: 'Invalid request format' }, { status: 400 });
+    }
+
+    const user = await getUserAccount(user_email);
+
+    if (!user) {
+      return NextResponse.json({ error: 'User account not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ interests: user.interests }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching user topics:', error);
+    return NextResponse.json({ error: 'Error fetching user topics' }, { status: 500 });
   }
 }

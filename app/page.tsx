@@ -1,3 +1,5 @@
+'use server';
+
 import '@/styles/globals.css';
 import '@/styles/page_home.css';
 

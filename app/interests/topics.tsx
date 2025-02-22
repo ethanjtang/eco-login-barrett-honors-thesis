@@ -16,7 +16,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
   useEffect(() => {
     const fetchUserTopics = async () => {
       try {
-        const response = await fetch(`/api/prismaDB/getUserTopics?user_email=${encodeURIComponent(userEmail)}`, {
+        const response = await fetch(`/api/prisma/user_interests?user_email=${encodeURIComponent(userEmail)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -52,8 +52,8 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
 
   const handleUpdateTopics = async () => {
     try {
-      const response = await fetch('/api/prismaDB/updateUserTopics', {
-        method: 'POST',
+      const response = await fetch('/api/prisma/user_interests', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

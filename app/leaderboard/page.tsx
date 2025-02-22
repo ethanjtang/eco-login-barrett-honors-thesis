@@ -1,13 +1,10 @@
-
 import Layout from "./layout";
 
 import { auth } from "@/auth";
-import { getUserAccount, isAdminAccount } from "@/db/getUserAccount"
+import { isAdminAccount } from "@/db/getUserAccount"
 import AuthNotFound from "@/db/sessionCheck"
 import AdminDash from "@/app/leaderboard/AdminDash"
 import UserDash from "@/app/leaderboard/UserDash"
-
-import { prisma } from "@/db/prisma"
 
 import "@/styles/globals.css"
 
@@ -22,7 +19,6 @@ export default async function Leaderboard() {
     );
   }
 
-  let user_account;
   let admin_user;
   let user_email:string;
 

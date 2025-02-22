@@ -1,52 +1,47 @@
-"use client";
+'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { prisma } from "@/db/prisma";
+// Define the categories in the same order as in the API
+const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
 const UserDash: React.FC = () => {
-    const updateInterestCounts = async (): Promise<number[]> =>
-        {
-            {/* Renewable Energy, Sustainable Transportation, Energy Efficiency, Waste Reduction, Water Conservation */}
-            let re_int = 0;
-            let st_int = 0;
-            let ee_int = 0;
-            let wr_int = 0;
-            let wc_int = 0;
-      
-            try {
-              // Retrieve all users from the database
-              const users = await prisma.user.findMany();
-          
-              // Iterate through the list of users
-              users.forEach((user) => {
-                console.log(`User: ${user.name}`);
-          
-                // Check the interests field
-                user.interests.forEach((interest) => {
-                  console.log(`Interest: ${interest}`);
-                });
-              });
-              } catch (error) {
-                console.error('Error retrieving users:', error);
-              } finally {
-                await prisma.$disconnect();
-              }
-      
-            return [re_int, st_int, ee_int, wr_int, wc_int];
+  const [userCounts, setUserCounts] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchUserCounts = async () => {
+      try {
+        const response = await fetch('/api/prisma/user_count', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user counts');
         }
 
-    const handleClick = async () => {
-        await updateInterestCounts();
-        };    
-    return (
+        const data = await response.json();
+        setUserCounts(data.counts);
+      } catch (error) {
+        console.error('Error fetching user counts:', error);
+      }
+    };
+
+    fetchUserCounts();
+  }, []);
+
+  return (
     <div>
-        <button onClick={handleClick}>Check User Interests</button>
-        <div> User dash </div>
+      <h2>User Counts by Interest Category</h2>
+      <ul>
+        {sus_topics.map((topic, index) => (
+          <li key={index}>{topic}: {userCounts[index]}</li>
+        ))}
+      </ul>
     </div>
-    ); 
-}
+  );
+};
 
 export default UserDash;
-
-
