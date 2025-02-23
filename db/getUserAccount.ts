@@ -41,6 +41,22 @@ export async function isAdminAccount(user_email:string): Promise<boolean>
     return false;
 }
 
+export async function isSuperAccount(user_email:string): Promise<boolean>
+{
+    let dbUser = null
+    dbUser = await getUserAccount(user_email);
+    if (dbUser) 
+    {
+        console.log('user found in db lelole');
+        if (dbUser.accountType == 'super')
+        {
+            console.log("super user found: {?}", user_email)
+            return true;
+        }
+    }
+    return false;
+}
+
 export async function getUserTopics(user_email:string): Promise<string[]>
 {
   let user = await getUserAccount(user_email);

@@ -6,7 +6,12 @@ interface Admin {
   email: string;
 }
 
-const AdminList = () => {
+interface AdminListProps {
+  isSuper: boolean;
+  userEmail: string;
+}
+
+const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [newAdminEmail, setNewAdminEmail] = useState<string>('');
 
@@ -32,21 +37,44 @@ const AdminList = () => {
     }
   };
 
+  const handleRemoveAdmin = async (email: string) => {
+    const response = await fetch('/api/prisma/admin_list', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    if (response.ok) {
+      setAdmins(admins.filter((admin) => admin.email !== email));
+    } else {
+      console.error('Failed to remove admin');
+    }
+  };
+
   return (
     <div>
       <h2>Admin Users</h2>
       <ul>
         {admins.map((admin) => (
-          <li key={admin.email}>{admin.email}</li>
+          <li key={admin.email}>
+            {admin.email}
+            {isSuper && admin.email !== userEmail && (
+              <button onClick={() => handleRemoveAdmin(admin.email)}>Remove</button>
+            )}
+          </li>
         ))}
       </ul>
-      <input
-        type="email"
-        value={newAdminEmail}
-        onChange={(e) => setNewAdminEmail(e.target.value)}
-        placeholder="Enter new admin email"
-      />
-      <button onClick={handleAddAdmin}>Add Admin</button>
+      {isSuper && (
+        <div>
+          <input
+            type="email"
+            value={newAdminEmail}
+            onChange={(e) => setNewAdminEmail(e.target.value)}
+            placeholder="Enter new admin email"
+          />
+          <button onClick={handleAddAdmin}>Add Admin</button>
+        </div>
+      )}
     </div>
   );
 };

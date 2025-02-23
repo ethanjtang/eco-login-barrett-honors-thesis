@@ -1,54 +1,74 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Layout from "./layout";
+import AuthNotFound from "@/db/sessionCheck";
+import AdminDash from "@/app/leaderboard/AdminDash";
+import AdminList from "@/app/leaderboard/AdminList";
+import UserDash from "@/app/leaderboard/UserDash";
+import "@/styles/globals.css";
 
-import { auth } from "@/auth";
-import { isAdminAccount } from "@/db/getUserAccount"
-import AuthNotFound from "@/db/sessionCheck"
-import AdminDash from "@/app/leaderboard/AdminDash"
-import AdminList from "@/app/leaderboard/AdminList"
-import UserDash from "@/app/leaderboard/UserDash"
+export default function Leaderboard() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuper, setIsSuper] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>("");
 
-import "@/styles/globals.css"
+  useEffect(() => {
+    const fetchSessionAndUserType = async () => {
+      const response = await fetch('/api/session', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const { session, error } = await response.json();
+      
+      if (error || !session?.user?.email) {
+        setUserEmail("No session found!");
+        return;
+      }
+      setUserEmail(session.user.email);
 
-export default async function Leaderboard() {
-  
-  const session = await auth()
-  if (!session) {
+      try {
+        const userTypeResponse = await fetch(`/api/prisma/user_type?email=${session.user.email}`);
+        const data = await userTypeResponse.json();
+
+        if (data.accountType === 'admin' || data.accountType === 'super') {
+          setIsAdmin(true);
+        }
+        if (data.accountType === 'super') {
+          setIsSuper(true);
+        }
+      } catch (error) {
+        console.error('Error fetching user type', error);
+      }
+    };
+
+    fetchSessionAndUserType();
+  }, []);
+
+  if (!userEmail) {
     return (
       <div className="ml-[2vw]">
-        <AuthNotFound/>
+        <AuthNotFound />
       </div>
     );
   }
 
-  let admin_user;
-  let user_email:string;
-
-  if (session?.user?.email) {
-    user_email = session.user.email;
-    admin_user = await isAdminAccount(user_email);
-  } 
-  else {
-  user_email = "No session found!";
-  }
-  
   return (
-      <div className="home-page-bg ml-[2vh]">
-        <h1 className="page-title">
-          Leaderboard Page
-        </h1>
-        <p className="page-caption">
-          This is a placeholder for the leaderboard page, where users will be able to see scores of other users.
-        </p>
-        {session && (
-        <UserDash/>
-        )}
-        {admin_user && (
-          <div>
-            <AdminDash/>
-            <p> Admin List: </p>
-            <AdminList/>
-          </div>       
-        )}
-      </div>
-    );
-  }
+    <div className="home-page-bg ml-[2vh]">
+      <h1 className="page-title">Leaderboard Page</h1>
+      <p className="page-caption">
+        This is a placeholder for the leaderboard page, where users will be able to see scores of other users.
+      </p>
+      <UserDash />
+      {isAdmin && (
+        <div>
+          <AdminDash />
+          <p> Admin List: </p>
+          <AdminList isSuper={isSuper} userEmail={userEmail} />
+        </div>
+      )}
+    </div>
+  );
+}

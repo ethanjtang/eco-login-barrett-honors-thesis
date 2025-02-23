@@ -1,16 +1,40 @@
+// Interests.tsx
+
+'use client';
+
+import { useState, useEffect } from 'react';
 import Layout from "./layout";
 import { SignOut } from "@/components/sign-out";
 import TopicsList from "@/app/interests/topics";
-import { auth } from "@/auth";
 import AuthNotFound from "@/db/sessionCheck";
 import "@/styles/globals.css";
-import * as dbUtils from "@/db/getUserAccount"
+import * as dbUtils from "@/db/getUserAccount";
 
-{/* List of topics related to sustainability and green living */}
 const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
-export default async function Interests() {
-  const session = await auth();
+export default function Interests() {
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch('/api/session');
+        const data = await response.json();
+
+        if (data.error) {
+          setSession(null);
+        } else {
+          setSession(data.session);
+        }
+      } catch (error) {
+        console.error('Error checking session', error);
+        setSession(null);
+      }
+    };
+
+    fetchSession();
+  }, []);
+
   if (!session) {
     return (
       <div className="ml-[2vw]">
