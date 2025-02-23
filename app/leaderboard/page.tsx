@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { isAdminAccount } from "@/db/getUserAccount"
 import AuthNotFound from "@/db/sessionCheck"
 import AdminDash from "@/app/leaderboard/AdminDash"
+import AdminList from "@/app/leaderboard/AdminList"
 import UserDash from "@/app/leaderboard/UserDash"
 
 import "@/styles/globals.css"
@@ -42,7 +43,10 @@ export default async function Leaderboard() {
         <UserDash/>
         )}
         {admin_user && (
-        <AdminDash/>
+          <div>
+            <AdminDash/>
+            <AdminList/>
+          </div>       
         )}
       </div>
     );
