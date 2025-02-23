@@ -45,6 +45,7 @@ export default async function Leaderboard() {
         {admin_user && (
           <div>
             <AdminDash/>
+            <p> Admin List: </p>
             <AdminList/>
           </div>       
         )}

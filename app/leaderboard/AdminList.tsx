@@ -6,7 +6,7 @@ interface Admin {
   email: string;
 }
 
-const AdminUsers = () => {
+const AdminList = () => {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [newAdminEmail, setNewAdminEmail] = useState<string>('');
 
@@ -51,4 +51,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default AdminList;
