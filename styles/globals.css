@@ -115,6 +115,17 @@ Default Elements
   @apply text-xl mt-4 mb-4 text-gray-800;
 }
 
+/* Hoverable div */
+.hoverable-div {
+  transition: transform 0.3s ease; /* Smooth transition with easing */
+  will-change: transform; /* Informing the browser to optimize for this change */
+}
+
+.hoverable-div:hover {
+  transform: scale(1.10); /* Slightly larger on hover */
+}
+
+
 /* End of Default Elements */
 
 

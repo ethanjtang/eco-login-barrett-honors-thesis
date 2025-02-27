@@ -15,3 +15,19 @@ export function SignOut() {
     </form>
   );
 }
+
+export function SignOut_Sm() {
+  return (
+    <form
+      action={handleSignOut}
+    >
+      <button
+        className="@apply bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green"
+        type="submit"
+      >
+        Sign Out
+      </button>
+    </form>
+  );
+}
+

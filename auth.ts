@@ -83,7 +83,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const hashPassword = await saltAndHashPassword(credentials.password)
           // Create the new user
           const newUser = await prisma.user.create({
-            data: { email, hashPassword },
+            data: { email, hashPassword, accountType: 'user' },
           });
           console.log('New user created');
           user = await getUser(credentials.email);
