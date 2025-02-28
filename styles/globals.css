@@ -92,7 +92,7 @@ Default Elements
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Default page background with top down mint green-white gradient */
@@ -101,18 +101,17 @@ Default Elements
   min-height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: linear-gradient(to bottom, var(--mint-green), #FFFFFF);
 }
 
 /* Page Title Text */
 .page-title {
-  @apply text-4xl font-bold mt-4;
+  @apply text-4xl font-bold;
 }
 
 /* Page Caption Text */
 .page-caption {
-  @apply text-xl mt-4 mb-4 text-gray-800;
+  @apply text-xl text-gray-800;
 }
 
 /* Hoverable div */

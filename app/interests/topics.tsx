@@ -76,29 +76,28 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
   };
 
   return (
-    <div>
-      <div>
-        <p>Your list of interests:</p>
-        <div>{userTopics.join(', ')}</div>
-      </div>
-      <div id="topics-container">
+    <div className="flex-col-centered mt-6">
+      <div id="topics-container mt-3">
         {sus_topics.map((topic, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <div className="mb-3" key={index} style={{ display: 'flex', alignItems: 'center', width: '400px'}}>
             <input
               type="checkbox"
               id={`checkbox-${index}`}
               name="sustainability-topic"
               value={topic}
-              style={{ marginRight: '10px' }}
+              style={{ width: '20px', height: '20px', marginRight: '10px' }}
               onChange={() => handleCheckboxChange(topic)}
               checked={selectedTopics.includes(topic)}
             />
-            <label htmlFor={`checkbox-${index}`} style={{ marginRight: '10px' }}>
-              {topic}
-            </label>
+            <label className="text-2xl" htmlFor={`checkbox-${index}`}>{topic}</label>
+            {userTopics.includes(topic) && (
+              <span className="text-sm" style={{ color: 'green', fontWeight: 'bold', marginLeft: '10px', minWidth: '80px', visibility: userTopics.includes(topic) ? 'visible' : 'hidden' }}>Subscribed!</span>
+            )}
           </div>
         ))}
-        <button onClick={handleUpdateTopics}>Update Selected Topics</button>
+      </div>
+      <div className="hoverable-div mt-3 mb-6">
+        <button className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green" onClick={handleUpdateTopics}> Update</button>
       </div>
     </div>
   );

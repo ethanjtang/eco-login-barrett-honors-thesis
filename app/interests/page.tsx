@@ -9,6 +9,7 @@ import TopicsList from "@/app/interests/topics";
 import AuthNotFound from "@/db/sessionCheck";
 import "@/styles/globals.css";
 import * as dbUtils from "@/db/getUserAccount";
+import { SignIn_Sm } from "@/components/sign-in";
 
 const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
@@ -37,8 +38,18 @@ export default function Interests() {
 
   if (!session) {
     return (
-      <div className="ml-[2vw]">
-        <AuthNotFound />
+      <div className="default-page-bg height-[100vh]">
+        <div className="flex-col-centered mt-6">
+          <p className="page-title mb-4">
+            Unauthorized Access
+          </p>
+          <p className="page-caption mb-4">
+            User session not active, please sign in to view this page.
+          </p>
+          <div>
+            <SignIn_Sm />
+          </div>
+        </div>
       </div>
     );
   }
@@ -46,16 +57,19 @@ export default function Interests() {
   const user_email = session.user?.email;
 
   return (
-    <div className="home-page-bg ml-[2vh]">
-      <h1 className="page-title">Interests Page</h1>
-      <p className="page-caption">
-        This is a placeholder for the interests page, where users will be able to select sustainability topics of interest.
-      </p>
-      <p className="page-caption">Hello, {user_email}!</p>
-      <div>
-        <SignOut />
+    <div className="home-page-bg">
+      <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4">
+        <p className="page-title mt-2 mb-4">Interests</p>
+        <p className="page-caption">
+          View and change your current sustainability topic subscriptions.
+        </p>
       </div>
-      <div>{user_email && <TopicsList userEmail={user_email} />}</div>
+      <div className="flex-col-centered w-[60vw] mt-6 mb-20 bg-white border border-gray-300 shadow-lg rounded-lg">
+        <div>
+          {user_email && 
+          <TopicsList userEmail={user_email}/>}
+        </div>
+      </div>
     </div>
   );
 }
