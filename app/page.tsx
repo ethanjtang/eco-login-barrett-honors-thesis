@@ -67,7 +67,7 @@ export default async function Home() {
       <Link href="/interests" className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-transform transition-colors flex items-center justify-center text-white text-2xl h-18 w-35 px-6 py-3 hover:bg-coffee-green mb-[3vh]"> Interests </Link>
     </div>
     <div className="hoverable-div">
-      <Link href="/leaderboard" className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-transform transition-colors flex items-center justify-center text-white text-2xl h-18 w-35 px-6 py-3 hover:bg-coffee-green"> Leaderboard </Link>
+      <Link href="/dashboard" className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-transform transition-colors flex items-center justify-center text-white text-2xl h-18 w-35 px-6 py-3 hover:bg-coffee-green"> Dashboard </Link>
     </div>
    </div>
 )}

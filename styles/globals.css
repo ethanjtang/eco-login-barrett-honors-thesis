@@ -127,4 +127,27 @@ Default Elements
 
 /* End of Default Elements */
 
+/* test */
+
+.grid-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.grid-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 8px 0;
+}
+
+.topic {
+  text-align: left;
+  font-size: 1.25rem;
+}
+
+.count {
+  text-align: right;
+  font-size: 1.25rem;
+}
+
 

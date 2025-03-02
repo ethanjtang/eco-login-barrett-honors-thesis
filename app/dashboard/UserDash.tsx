@@ -33,13 +33,20 @@ const UserDash: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>User Counts by Interest Category</h2>
-      <ul>
-        {sus_topics.map((topic, index) => (
-          <li key={index}>{topic}: {userCounts[index]}</li>
-        ))}
-      </ul>
+    <div className="centered-flex-col align-center w-[30vw] mb-6">
+      <div>
+        <h2 className="text-2xl mb-4 text-center font-semibold underline"> Topic Subscriber Count </h2>
+      </div>
+      <div>
+        <ul className="grid-list">
+              {sus_topics.map((topic, index) => (
+                <li key={index} className="grid-item">
+                  <span className="topic text-xl">{topic}</span> <span className="count font-semibold text-4xl ml-2">{userCounts[index]}</span>
+                  <hr className="border-gray-600 w-full mx-auto" style={{ opacity: 0.75, borderWidth: '1px' }} />
+                </li>
+              ))}
+            </ul>
+      </div>
     </div>
   );
 };

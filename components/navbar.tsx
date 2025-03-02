@@ -19,8 +19,8 @@ const Navbar = () => {
             link: "/interests"
         },
         {
-            name: "Leaderboard",
-            link: "/leaderboard"
+            name: "Dashboard",
+            link: "/dashboard"
         }
     ]
 
