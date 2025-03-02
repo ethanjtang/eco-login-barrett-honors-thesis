@@ -4,13 +4,36 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from 'react';
 
 import "@/styles/navbar.css";
 
 import { auth } from "@/auth";
-import { SignOut } from "@/components/sign-out";
+import { SignIn_Sm } from "@/components/sign-in";
+import { SignOut, SignOut_Sm } from "@/components/sign-out";
 
 const Navbar = () => {
+    const [session, setSession] = useState<any>(null);
+
+    useEffect(() => {
+    const fetchSession = async () => {
+        try {
+        const response = await fetch('/api/session');
+        const data = await response.json();
+
+        if (data.error) {
+            setSession(null);
+        } else {
+            setSession(data.session);
+        }
+        } catch (error) {
+        console.error('Error checking session', error);
+        setSession(null);
+        }
+    };
+
+    fetchSession();
+    }, []);
 
     const path = usePathname();
     const menuItem = [
@@ -59,6 +82,20 @@ const Navbar = () => {
                 }
             )}
         </ul>
+        <div className="flex items-center ml-auto">
+            {session? (
+                <>
+                    <span className="text-lg font-semibold user-email mr-4">{session.user.email}</span>
+                    <div className="hoverable-div">
+                        <SignOut_Sm/>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <SignIn_Sm/>
+                </>
+            )}
+        </div>
     </div>
     );
   };

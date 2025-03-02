@@ -39,16 +39,8 @@ export default function Interests() {
   if (!session) {
     return (
       <div className="default-page-bg height-[100vh]">
-        <div className="flex-col-centered mt-6">
-          <p className="page-title mb-4">
-            Unauthorized Access
-          </p>
-          <p className="page-caption mb-4">
-            User session not active, please sign in to view this page.
-          </p>
-          <div>
-            <SignIn_Sm />
-          </div>
+        <div>
+          <AuthNotFound/>
         </div>
       </div>
     );

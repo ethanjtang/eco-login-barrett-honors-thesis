@@ -4,7 +4,7 @@ import { SignIn_Sm } from "@/components/sign-in";
 
 export default function AuthNotFound() {
   return (
-    <div className="flex-col-centered mt-6">
+    <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4 mt-6">
       <p className="page-title">
         Unauthorized Access
       </p>
