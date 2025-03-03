@@ -50,7 +50,7 @@ export default function Leaderboard() {
 
   if (userEmail == "No session found!") {
     return (
-      <div className="default-page-bg height-[100vh]">
+      <div className="auth-fail-page-bg">
         <div>
           <AuthNotFound/>
         </div>
@@ -60,7 +60,7 @@ export default function Leaderboard() {
   else
   {
     return (
-      <div className="home-page-bg">
+      <div className="default-page-bg height-[100vh]">
         <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4 mt-4">
           <p className="page-title mt-2 mb-4"> Dashboard </p>
           <p className="page-caption">
@@ -70,7 +70,7 @@ export default function Leaderboard() {
         <div className="flex-col-centered h-[60vh] w-[60vw] mt-4 mb-20 bg-white border border-gray-300 shadow-lg rounded-lg">
           {isAdmin && (
             <div className="hoverable-div">
-              <button className="bg-greenify-button-green mt-4 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green"
+              <button className="bg-greenify-button-green mt-6 mb-4 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green"
                       onClick={() => setView(view === 'user' ? 'admin' : 'user')}>
                       {view === 'user' ? 'Admin View' : 'User View'}
               </button>
@@ -83,10 +83,13 @@ export default function Leaderboard() {
           </div>
           <div>
             {view === 'admin' && isAdmin && (
-              <div>
-                <AdminDash />
-                <p> Admin List: </p>
-                <AdminList isSuper={isSuper} userEmail={userEmail} />
+              <div className="flex-row-centered mb-20">
+                <div className="mr-10">
+                  <AdminDash/>
+                </div>
+                <div>
+                  <AdminList isSuper={isSuper} userEmail={userEmail}/>
+                </div>
               </div>
             )}
           </div>

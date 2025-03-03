@@ -49,7 +49,7 @@ const Navbar = () => {
 
     return (
     <div className="nav-bar-header">
-        <div>
+        <div className="hoverable-div">
             <Link href="/" passHref>
                 <Image
                     src="/green-leaf-logo.png"
@@ -92,7 +92,10 @@ const Navbar = () => {
                 </>
             ) : (
                 <>
-                    <SignIn_Sm/>
+                    <div className="hoverable-div">
+                        <SignIn_Sm/>
+                    </div>
+                    
                 </>
             )}
         </div>

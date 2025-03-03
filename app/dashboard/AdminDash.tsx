@@ -45,11 +45,13 @@ const AdminDash: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Admin user found</h2>
+    <div className="flex-col-centered h-[40vh]">
+      <div className="text-2xl text-center font-semibold underline mb-4">
+        Subscriber List Export
+      </div>
       <div>
         {sus_topics.map((topic, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
             <input
               type="radio"
               id={`radio-${index}`}
@@ -59,13 +61,18 @@ const AdminDash: React.FC = () => {
               onChange={() => handleRadioChange(topic)}
               checked={selectedTopic === topic}
             />
-            <label htmlFor={`radio-${index}`} style={{ marginRight: '10px' }}>
+            <label className="text-xl" htmlFor={`radio-${index}`} style={{ marginRight: '10px' }}>
               {topic}
             </label>
           </div>
         ))}
       </div>
-      <button onClick={handleGetUsers}>Get users</button>
+      <div className="hoverable-div">
+        <button className="bg-greenify-button-green mt-2 mb-4 mr-4 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green"
+                onClick={handleGetUsers}>
+          Export List
+        </button>
+      </div>
     </div>
   );
 };

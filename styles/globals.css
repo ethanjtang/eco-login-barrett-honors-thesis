@@ -84,7 +84,7 @@ Default Elements
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Centered flex row */
@@ -97,6 +97,15 @@ Default Elements
 
 /* Default page background with top down mint green-white gradient */
 .default-page-bg {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--mint-green), #FFFFFF);
+}
+
+.auth-fail-page-bg {
   display: flex;
   min-height: 100vh;
   flex-direction: column;

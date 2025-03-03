@@ -38,7 +38,7 @@ export default function Interests() {
 
   if (!session) {
     return (
-      <div className="default-page-bg height-[100vh]">
+      <div className="auth-fail-page-bg">
         <div>
           <AuthNotFound/>
         </div>
@@ -49,7 +49,7 @@ export default function Interests() {
   const user_email = session.user?.email;
 
   return (
-    <div className="home-page-bg">
+    <div className="default-page-bg height-[100vh]">
       <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4">
         <p className="page-title mt-2 mb-4">Interests</p>
         <p className="page-caption">
