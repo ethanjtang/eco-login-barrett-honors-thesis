@@ -65,7 +65,7 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
                 {isSuper && admin.email !== userEmail && (
                   <div className="hoverable-div">
                     <button
-                      className="bg-red-400 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-base h-8 w-18 px-2 py-2 hover:bg-red-800"
+                      className="bg-red-500 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-base h-8 w-18 px-2 py-2 hover:bg-red-800"
                       onClick={() => handleRemoveAdmin(admin.email)}
                     >
                       Remove

@@ -75,6 +75,31 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
     }
   };
 
+  const handleUnsubscribe = async () => {
+    try {
+      const response = await fetch('/api/prisma/user_interests', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_email: userEmail, new_user_topics: [] }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to unsubscribe from all user topics');
+      }
+
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Error unsubscribing from user topics:', error);
+    }
+    finally {
+      setUserTopics([]);
+      setSelectedTopics([]);
+    }
+  };
+
   return (
     <div className="flex-col-centered mt-6">
       <div id="topics-container mt-3">
@@ -96,8 +121,13 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
           </div>
         ))}
       </div>
-      <div className="hoverable-div mt-3 mb-6">
-        <button className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green" onClick={handleUpdateTopics}> Update</button>
+      <div className="flex flex-row align-center justify-start">
+        <div className="hoverable-div mt-3 mb-6">
+          <button className="bg-greenify-button-green rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green" onClick={handleUpdateTopics}> Update</button>
+        </div>
+        <div className="hoverable-div mt-3 mb-6 ml-4 ">
+          <button className="bg-red-500 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-red-800" onClick={handleUnsubscribe}> Unsubscribe</button>
+        </div>
       </div>
     </div>
   );
