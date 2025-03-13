@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Layout from "./layout";
 import AuthNotFound from "@/db/sessionCheck";
 import AdminDash from "@/app/dashboard/AdminDash";
 import AdminList from "@/app/dashboard/AdminList";
@@ -12,9 +11,10 @@ export default function Leaderboard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuper, setIsSuper] = useState(false);
   const [userEmail, setUserEmail] = useState<string>("No session found!");
-  const [view, setView] = useState('user'); // Added state to manage the view
+  const [view, setView] = useState('user'); // State to manage between user and admin view
 
   useEffect(() => {
+    {/* Fetch current user session and user type from session API */}
     const fetchSessionAndUserType = async () => {
       const response = await fetch('/api/session', {
         method: 'GET',
@@ -48,6 +48,7 @@ export default function Leaderboard() {
     fetchSessionAndUserType();
   }, []);
 
+  {/* If there is no active session, prompt user to log in to view page contents */}
   if (userEmail == "No session found!") {
     return (
       <div className="auth-fail-page-bg">
@@ -59,6 +60,7 @@ export default function Leaderboard() {
   }
   else
   {
+    {/* Dashboard page contents */}
     return (
       <div className="default-page-bg height-[100vh]">
         <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4 mt-4">
@@ -68,6 +70,7 @@ export default function Leaderboard() {
           </p>
         </div>
         <div className="flex-col-centered h-[60vh] w-[60vw] mt-4 mb-20 bg-white border border-gray-300 shadow-lg rounded-lg">
+          {/* Button toggle between user and admin view */}
           {isAdmin && (
             <div className="hoverable-div">
               <button className="bg-greenify-button-green mt-6 mb-4 rounded-full shadow-sm border border-solid border-black/[.16] transition-colors flex items-center justify-center text-white text-xl h-10 w-18 px-4 py-2 hover:bg-coffee-green"
@@ -76,11 +79,12 @@ export default function Leaderboard() {
               </button>
           </div>
           )}
+          {/* User view */}
           <div>
-            {/* Format user page if user is not admin type */}
             {!isAdmin && (<div className="mb-8"></div>)}
             {view === 'user' && <UserDash />}
           </div>
+          {/* Admin view */}
           <div>
             {view === 'admin' && isAdmin && (
               <div className="flex-row-centered mb-20">

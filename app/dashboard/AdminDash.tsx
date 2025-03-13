@@ -7,10 +7,12 @@ const sus_topics: string[] = ["Renewable Energy", "Sustainable Transportation", 
 const AdminDash: React.FC = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   
+  {/* Current topic of selection */}
   const handleRadioChange = (topic: string) => {
     setSelectedTopic(topic);
   };
 
+  {/* Fetch email list of users subscribed to a topic */}
   const handleGetUsers = async () => {
     if (!selectedTopic) {
       alert('Please select a topic first!');
@@ -18,6 +20,7 @@ const AdminDash: React.FC = () => {
     }
 
     try {
+      {/* Fetch list of users from user_topic API */}
       const response = await fetch(`/api/prisma/admin_display?user_topic=${encodeURIComponent(selectedTopic)}`, {
         method: 'GET',
         headers: {
@@ -31,7 +34,8 @@ const AdminDash: React.FC = () => {
 
       const data = await response.json();
       const emails = data.emails;
-
+      
+      {/* Download text file containing user emails */}
       const blob = new Blob([emails.join('\n')], { type: 'text/plain' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -44,6 +48,7 @@ const AdminDash: React.FC = () => {
     }
   };
 
+  {/* Admin dashboard for user export */}
   return (
     <div className="flex-col-centered h-[40vh]">
       <div className="text-2xl text-center font-semibold underline mb-4">
@@ -57,7 +62,9 @@ const AdminDash: React.FC = () => {
               id={`radio-${index}`}
               name="sustainability-topic"
               value={topic}
-              style={{ marginRight: '10px' }}
+              style={{ 
+                marginRight: '10px' 
+              }}
               onChange={() => handleRadioChange(topic)}
               checked={selectedTopic === topic}
             />

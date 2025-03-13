@@ -1,22 +1,15 @@
-// Interests.tsx
-
 'use client';
 
 import { useState, useEffect } from 'react';
-import Layout from "./layout";
-import { SignOut } from "@/components/sign-out";
 import TopicsList from "@/app/interests/topics";
 import AuthNotFound from "@/db/sessionCheck";
 import "@/styles/globals.css";
-import * as dbUtils from "@/db/getUserAccount";
-import { SignIn_Sm } from "@/components/sign-in";
-
-const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
 export default function Interests() {
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
+    {/* Get current session from session API */}
     const fetchSession = async () => {
       try {
         const response = await fetch('/api/session');
@@ -36,6 +29,7 @@ export default function Interests() {
     fetchSession();
   }, []);
 
+  {/* If there is no active session, prompt user to log in to view page contents */}
   if (!session) {
     return (
       <div className="auth-fail-page-bg">
@@ -48,6 +42,7 @@ export default function Interests() {
 
   const user_email = session.user?.email;
 
+  {/* Interests page content */}
   return (
     <div className="default-page-bg height-[100vh]">
       <div className="flex-col-centered bg-white border border-gray-300 shadow-lg rounded-lg px-4 py-4">

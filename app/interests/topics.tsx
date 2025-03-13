@@ -1,4 +1,3 @@
-// components/TopicsList.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -7,13 +6,15 @@ interface TopicsListProps {
   userEmail: string;
 }
 
+{/* Topics are hardcoded for now, change can be added in the future to allow admin users to add/edit/remove topipcs */}
 const sus_topics: string[] = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
 const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-  const [userTopics, setUserTopics] = useState<string[]>([]);
+const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+const [userTopics, setUserTopics] = useState<string[]>([]);
 
   useEffect(() => {
+    {/* Call user_interests API to fetch user topics they are subscribed to */}
     const fetchUserTopics = async () => {
       try {
         const response = await fetch(`/api/prisma/user_interests?user_email=${encodeURIComponent(userEmail)}`, {
@@ -38,6 +39,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
     fetchUserTopics();
   }, [userEmail]);
 
+  {/* Used to determine which checkboxes selected by user */}
   const handleCheckboxChange = (topic: string) => {
     setSelectedTopics(prevSelectedTopics =>
       prevSelectedTopics.includes(topic)
@@ -46,10 +48,12 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
     );
   };
 
+  {/* Return selected topics by user */}
   const getSelectedTopics = (): string[] => {
     return selectedTopics;
   };
 
+  {/* Call user_interests API to update user topics in DB */}
   const handleUpdateTopics = async () => {
     try {
       const response = await fetch('/api/prisma/user_interests', {
@@ -71,10 +75,11 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
     }
     finally {
       setUserTopics(getSelectedTopics);
-      
+      setSelectedTopics(getSelectedTopics);
     }
   };
 
+  {/* Call user_interests API to remove all interests from a user */}
   const handleUnsubscribe = async () => {
     try {
       const response = await fetch('/api/prisma/user_interests', {
@@ -100,6 +105,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ userEmail }) => {
     }
   };
 
+  {/* User topics list layout */}
   return (
     <div className="flex-col-centered mt-6">
       <div id="topics-container mt-3">

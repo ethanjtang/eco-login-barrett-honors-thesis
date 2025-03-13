@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "GEACRE Sign-in Portal",
+  title: "EcoLogin Portal",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Green Living website"/>
+        <meta name="description" content="EcoLogin"/>
         <link rel="icon" href="/green_expectations_logo.png" />
       </head>
       <body

@@ -16,16 +16,18 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
   const [newAdminEmail, setNewAdminEmail] = useState<string>('');
 
   useEffect(() => {
+    {/* Fetch current list of admin users */}
     fetch('/api/prisma/admin_list')
       .then((res) => res.json())
-      .then((data) => setAdmins(data.admins)); // Adjust to match the API response structure
+      .then((data) => setAdmins(data.admins));
   }, []);
 
+  {/* */}
   const handleAddAdmin = async () => {
     const response = await fetch('/api/prisma/admin_list', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: newAdminEmail }), // Adjust to match the API request format
+      body: JSON.stringify({ email: newAdminEmail }), 
     });
 
     if (response.ok) {
