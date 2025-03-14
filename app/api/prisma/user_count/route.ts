@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/db/prisma';
 
 /* API to fetch the number of users subscribed to a sustainability-related topic */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Categories hardcoded, a future update should refactor to allow dynamic add/remove/update for categories
     const categories = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];

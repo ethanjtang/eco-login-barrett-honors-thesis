@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/db/prisma';
 
 /* API to fetch list of admins, GET request returns list of admin users */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const admins = await prisma.user.findMany({
       where: {

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { auth } from "@/auth";
 
 /* API to check the current active user session */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
 
