@@ -6,6 +6,7 @@ import AuthNotFound from "@/components/authNotFound";
 import "@/styles/globals.css";
 
 export default function Interests() {
+  // eslint-disable-next-line
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {

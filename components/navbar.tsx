@@ -13,6 +13,7 @@ import { SignOut_Sm } from "@/components/sign-out";
 
 /* Top navigation bar for pages, Home page handles navigation using a menu instead */
 const Navbar = () => {
+    // eslint-disable-next-line
     const [session, setSession] = useState<any>(null);
 
     useEffect(() => {
