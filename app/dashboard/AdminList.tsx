@@ -22,7 +22,7 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
       .then((data) => setAdmins(data.admins));
   }, []);
 
-  {/* */}
+  {/* Call admin_list API to add new admin user */}
   const handleAddAdmin = async () => {
     const response = await fetch('/api/prisma/admin_list', {
       method: 'POST',
@@ -39,6 +39,7 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
     }
   };
 
+  {/* Call admin_list API to remove an admin */}
   const handleRemoveAdmin = async (email: string) => {
     const response = await fetch('/api/prisma/admin_list', {
       method: 'DELETE',
@@ -53,11 +54,13 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
     }
   };
 
+  {/* Admin list contents */}
   return (
     <div className="flex-col-centered h-[40vh]">
       <div>
         <p className="text-2xl text-center font-semibold underline mb-4">Admin Users</p>
       </div>
+      {/* List of each individual admin user */}
       <div className="w-80 mb-4">
         <ul>
           {admins.map((admin) => (
@@ -79,6 +82,8 @@ const AdminList: React.FC<AdminListProps> = ({ isSuper, userEmail }) => {
           ))}
         </ul>
       </div>
+      
+      {/* Field to assign a new admin user */}
       <div>
         {isSuper && (
           <div className="flex-row-centered">

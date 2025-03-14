@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import TopicsList from "@/app/interests/topics";
-import AuthNotFound from "@/db/sessionCheck";
+import AuthNotFound from "@/components/authNotFound";
 import "@/styles/globals.css";
 
 export default function Interests() {

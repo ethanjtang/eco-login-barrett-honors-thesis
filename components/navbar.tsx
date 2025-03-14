@@ -8,14 +8,15 @@ import { useState, useEffect } from 'react';
 
 import "@/styles/navbar.css";
 
-import { auth } from "@/auth";
 import { SignIn_Sm } from "@/components/sign-in";
-import { SignOut, SignOut_Sm } from "@/components/sign-out";
+import { SignOut_Sm } from "@/components/sign-out";
 
+/* Top navigation bar for pages, Home page handles navigation using a menu instead */
 const Navbar = () => {
     const [session, setSession] = useState<any>(null);
 
     useEffect(() => {
+    /* Fetch current session from session API */
     const fetchSession = async () => {
         try {
         const response = await fetch('/api/session');
@@ -35,6 +36,7 @@ const Navbar = () => {
     fetchSession();
     }, []);
 
+    /* Creating individual menu items for interests and dashboard page */
     const path = usePathname();
     const menuItem = [
         {
@@ -47,6 +49,7 @@ const Navbar = () => {
         }
     ]
 
+    /* Navbar contents */
     return (
     <div className="nav-bar-header">
         <div className="hoverable-div">
@@ -61,6 +64,7 @@ const Navbar = () => {
                 />
             </Link>
         </div>
+        {/* Dynamically create each element in navbar from list of menu items */}
         <ul className="flex">
             {menuItem.map((menu) => {
                 const isActive = menu.link === path;
@@ -82,6 +86,7 @@ const Navbar = () => {
                 }
             )}
         </ul>
+        {/* Include sign-in/sign-out button depending on whether there is an active user session detected */}
         <div className="flex items-center ml-auto">
             {session? (
                 <>

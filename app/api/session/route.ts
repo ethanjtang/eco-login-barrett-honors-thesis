@@ -1,8 +1,7 @@
-// /api/session/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from "@/auth";
 
+/* API to check the current active user session */
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();

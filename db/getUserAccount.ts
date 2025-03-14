@@ -4,17 +4,12 @@ export async function getUserAccount(user_email:string) {
   let dbUser = null
   try
   {
-    console.log('trying to find user in db with email: ', user_email);
+    console.log('Searching for user in DB with email: ', user_email);
     dbUser = await prisma.user.findUnique({
       where: {
         email: user_email,
       },
     });
-  
-    if (dbUser) 
-    {
-      console.log('user found in db lelole');
-    }
   }  
   catch (error) 
   { 
@@ -31,10 +26,10 @@ export async function isAdminAccount(user_email:string): Promise<boolean>
     dbUser = await getUserAccount(user_email);
     if (dbUser) 
     {
-        console.log('user found in db lelole');
+        console.log('User account found in database: ', user_email);
         if (dbUser.accountType == 'admin')
         {
-            console.log("admin user found: {?}", user_email)
+            console.log("Admin user detected: {?}", user_email)
             return true;
         }
     }
@@ -47,10 +42,10 @@ export async function isSuperAccount(user_email:string): Promise<boolean>
     dbUser = await getUserAccount(user_email);
     if (dbUser) 
     {
-        console.log('user found in db lelole');
+        console.log('User account found in database: ', user_email);
         if (dbUser.accountType == 'super')
         {
-            console.log("super user found: {?}", user_email)
+            console.log("Super user detected: {?}", user_email);
             return true;
         }
     }
@@ -73,20 +68,18 @@ export async function getUserTopics(user_email:string): Promise<string[]>
 
 export async function updateUserTopics(user_email:string, new_user_topics:string[])
 {
-  console.log("Updating db...1")
+  console.log("Starting user topics update for {?}", user_email);
   let user = await getUserAccount(user_email);
-  console.log("Updating db...2")
   if (user)
   {
-    console.log("Updating db...3")
-    console.log("Original: ", user.interests);
+    console.log("Original topics for {?}: {?}", user_email, user.interests);
     user.interests = new_user_topics;
-    console.log("Updating db...4")
+    console.log("Updating db...4");
     console.log("Updated: ", user.interests);
   }
   else
   {
     console.log("User account not found, cannot update topics!");
   }
-  console.log("Updating db...5")
+  console.log("Finished topics update for {?}", user_email);
 }

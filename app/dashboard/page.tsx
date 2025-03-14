@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AuthNotFound from "@/db/sessionCheck";
+import AuthNotFound from "@/components/authNotFound";
 import AdminDash from "@/app/dashboard/AdminDash";
 import AdminList from "@/app/dashboard/AdminList";
 import UserDash from "@/app/dashboard/UserDash";

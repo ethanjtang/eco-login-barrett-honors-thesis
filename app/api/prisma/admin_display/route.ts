@@ -1,7 +1,7 @@
-// app/api/prismaDB/getUserTopics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/db/prisma';
 
+/* API to fetch list of user emails from users interested in a specific sustainability-related topic */
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);

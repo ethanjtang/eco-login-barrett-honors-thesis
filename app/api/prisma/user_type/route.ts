@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/db/prisma';
 
+/* API to fetch the current type of a user */
 export async function GET(request: NextRequest) {
   try {
     const email = request.nextUrl.searchParams.get('email');

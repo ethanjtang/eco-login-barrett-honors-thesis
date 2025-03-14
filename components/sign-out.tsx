@@ -1,6 +1,6 @@
-// signOut.tsx
 import { handleSignOut } from "@/components/signOutServer";
 
+/* Normal size sign-out button */
 export function SignOut() {
   return (
     <form
@@ -16,6 +16,7 @@ export function SignOut() {
   );
 }
 
+/* Small size sign-out button */
 export function SignOut_Sm() {
   return (
     <form

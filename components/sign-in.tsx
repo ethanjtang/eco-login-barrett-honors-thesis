@@ -1,6 +1,6 @@
-// signIn.tsx
 import { handleSignIn } from "@/components/signInServer";
 
+/* Normal size sign-in button */
 export function SignIn() {
   return (
     <form
@@ -16,6 +16,7 @@ export function SignIn() {
   );
 }
 
+/* Small size sign-in button */
 export function SignIn_Sm() {
   return (
     <form

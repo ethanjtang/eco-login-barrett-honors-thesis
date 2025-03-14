@@ -1,8 +1,8 @@
-// app/api/prismaDB/getUserTopics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserAccount } from '@/db/getUserAccount';
 import { prisma } from '@/db/prisma';
 
+/* API to fetch the topics a user is interested in, PUT used to update string[] interests for a user */
 export async function PUT(request: NextRequest) {
   const { user_email, new_user_topics } = await request.json();
 
@@ -35,6 +35,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+/* GET used to fetch string[] interests for a user */
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);

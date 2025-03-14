@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Define the categories in the same order as in the API
+// Define the categories in the same order as in the API, currently hardcoded
 const sus_topics = ["Renewable Energy", "Sustainable Transportation", "Energy Efficiency", "Waste Reduction", "Water Conservation"];
 
 const UserDash: React.FC = () => {
   const [userCounts, setUserCounts] = useState<number[]>([]);
 
   useEffect(() => {
+    /* Get number of users subscribed to each sustainability topic using user_count API */
     const fetchUserCounts = async () => {
       try {
         const response = await fetch('/api/prisma/user_count', {
@@ -32,6 +33,7 @@ const UserDash: React.FC = () => {
     fetchUserCounts();
   }, []);
 
+  /* User dashboard contents */
   return (
     <div className="centered-flex-col align-center w-[30vw] mb-6">
       <div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/db/prisma';
 
+/* API to fetch list of admins, GET request returns list of admin users */
 export async function GET(request: NextRequest) {
   try {
     const admins = await prisma.user.findMany({
@@ -19,6 +20,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/* POST request adds a new admin to the list by updating corresponding user entry in DB */
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
@@ -51,6 +53,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/* DELETE request removes a current admin to the list by updating corresponding user entry in DB */
 export async function DELETE(request: NextRequest) {
   try {
     const { email } = await request.json();
