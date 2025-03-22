@@ -76,7 +76,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const newUser = await prisma.user.create({
             data: { email, hashPassword, accountType: 'user' },
           });
-          console.log('New user created');
           user = await getUserAccount(credentials.email);
           return user
         }
