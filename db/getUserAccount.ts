@@ -74,7 +74,6 @@ export async function updateUserTopics(user_email:string, new_user_topics:string
   {
     console.log("Original topics for {?}: {?}", user_email, user.interests);
     user.interests = new_user_topics;
-    console.log("Updating db...4");
     console.log("Updated: ", user.interests);
   }
   else
